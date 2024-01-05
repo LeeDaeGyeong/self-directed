@@ -1,70 +1,31 @@
-# Getting Started with Create React App
+### staleTime
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+react-query는 항상 데이터가 오래되었다고 판단한다.
 
-## Available Scripts
+그렇기에 staleTime의 기본값은 0이다. (stale : 신선하지 않은)
 
-In the project directory, you can run:
+staleTime의 값이 0이라는 뜻은 항상 데이터를 새로 받아온다는 뜻이다.
 
-### `npm start`
+하지만 만약 불러온 데이터가 자주 바뀌지 않는 정적인 데이터라면,
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+불필요한 네트워크 요청이 발생하게 된다.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+이러한 경우 staleTime의 값을 변경해서 불필요한 네트워크 요청을 막을 수 있다.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### cacheTime
 
-### `npm run build`
+cacheTime은 불러온 데이터가 유효한 시간을 의미한다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+이 시간이 지나면 해당 데이터는 가비지 콜렉터로 수집된다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### staleTime을 cacheTime보다 작게 설정하는 이유
 
-### `npm run eject`
+우리가 staleTime을 지정하는 이유는 staleTime 시간 동안 refetch 없이 저장된 데이터를 사용하기 위해서이다.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+하지만 react-query는 해당 데이터의 cacheTime이 지나면 가비지 콜렉터로 수집하기 때문에,
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+아무리 staleTime 시간이 남아있어도 저장된 데이터를 사용할 수 없게 되기 때문이다.
